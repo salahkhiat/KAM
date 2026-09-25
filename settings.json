@@ -1,0 +1,13 @@
+{
+    "selected_size": "1",
+    "sizes":{
+        "1":{
+            "width_mm": 40,
+            "height_mm": 20
+        },
+        "2":{
+            "width_mm": 50,
+            "height_mm": 25
+        }
+    }
+}
