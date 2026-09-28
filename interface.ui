@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>643</width>
-    <height>679</height>
+    <width>673</width>
+    <height>713</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>30</x>
      <y>200</y>
-     <width>571</width>
+     <width>591</width>
      <height>321</height>
     </rect>
    </property>
@@ -343,7 +343,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>570</y>
+     <y>610</y>
      <width>401</width>
      <height>51</height>
     </rect>
@@ -360,7 +360,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>560</y>
+     <y>600</y>
      <width>60</width>
      <height>60</height>
     </rect>
@@ -404,7 +404,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>560</y>
+     <y>600</y>
      <width>60</width>
      <height>60</height>
     </rect>
@@ -444,7 +444,7 @@
   <widget class="QPushButton" name="logo_btn">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>80</x>
      <y>10</y>
      <width>221</width>
      <height>100</height>
@@ -480,7 +480,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>530</y>
+     <y>570</y>
      <width>381</width>
      <height>22</height>
     </rect>
@@ -493,7 +493,7 @@
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>520</y>
+     <y>560</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -513,7 +513,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>640</y>
+     <y>680</y>
      <width>331</width>
      <height>31</height>
     </rect>
@@ -533,7 +533,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>630</y>
+     <y>670</y>
      <width>591</width>
      <height>20</height>
     </rect>
@@ -553,6 +553,58 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="label_size">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>40</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>40 x 35</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>40 x 20</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>50 x 25</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>50</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string> الحجم :</string>
    </property>
   </widget>
  </widget>

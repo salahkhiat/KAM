@@ -23,9 +23,10 @@ class MainScreenForm(Form):
         self.view = QGraphicsView(self.scene, self.ui.workspace)
         self.view.setGeometry(self.ui.workspace.rect())
         self.view.setStyleSheet("background: #dddddd; border: none;")
+        
 
         self.label_width_mm = 40
-        self.label_height_mm = 20
+        self.label_height_mm = 35
 
         # Set the allowed font-size range from 20 to 100
         self.ui.font_size.setMinimum(20)
@@ -38,6 +39,12 @@ class MainScreenForm(Form):
         # Connect the font-size slider so the current line changes size
         self.ui.font_size.valueChanged.connect(self.change_font_size)
 
+        # Set the initial font size of the text
+        self.text_item.setFont(QFont("Arial", 30))
+        
+       
+        self.ui.font_size.valueChanged.connect(self.change_font_size)
+
         # Check the 5-line limit whenever the user changes the text
         self.text_item.document().contentsChanged.connect(self.check_text_limit)
 
@@ -47,8 +54,15 @@ class MainScreenForm(Form):
         # Connect the Italic button
         self.ui.italic_btn.clicked.connect(self.toggle_italic)
 
+        
+
+        # Connect the label-size combo box
+        self.ui.label_size.currentIndexChanged.connect(self.change_label_size)
+
         # Store the current vertical text alignment
         self.vertical_alignment = "center"
+
+        self.ui.font_size.setValue(30)
 
  
 
@@ -89,7 +103,7 @@ class MainScreenForm(Form):
         workspace_width = self.ui.workspace.width()
         workspace_height = self.ui.workspace.height()
 
-        margin = 20
+        margin = 10
 
         available_width = workspace_width - margin * 2
         available_height = workspace_height - margin * 2
@@ -127,7 +141,7 @@ class MainScreenForm(Form):
             brush
         )
 
-        self.text_item = QGraphicsTextItem("أكتب هنا")
+        self.text_item = QGraphicsTextItem("هنا")
         self.text_item.setTextWidth(width)
         # Allow the user to type and edit text directly inside the label
         self.text_item.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
@@ -137,9 +151,17 @@ class MainScreenForm(Form):
 
         self.text_item.document().setDefaultTextOption(option)
 
-        self.text_item.setFont(
-            QFont("Arial", 15)
-        )
+        # Set the initial font size and make the text bold
+        font = QFont("Arial", self.ui.font_size.value())
+        font.setBold(True)
+        self.text_item.setFont(font)
+
+        # Apply bold formatting directly to the initial text
+        cursor = self.text_item.textCursor()
+        text_format = cursor.charFormat()
+        text_format.setFontWeight(QFont.Weight.Bold)
+        cursor.setCharFormat(text_format)
+        self.text_item.setTextCursor(cursor)
 
         self.scene.addItem(self.text_item)
 
@@ -151,6 +173,7 @@ class MainScreenForm(Form):
         self.text_item.setPos(x, text_y)
 
     # Change the current text line's font size from the font-size slider
+    # Change the current line's font size without allowing the text to exceed the label
     def change_font_size(self, value):
         if not hasattr(self, "text_item"):
             return
@@ -160,14 +183,36 @@ class MainScreenForm(Form):
         # Select the current line
         cursor.select(QTextCursor.SelectionType.BlockUnderCursor)
 
-        # Apply the slider value as the font size
+        # Remember the current font size
+        current_format = cursor.charFormat()
+        old_size = current_format.fontPointSize()
+
+        # Apply the new font size temporarily
         text_format = cursor.charFormat()
         text_format.setFontPointSize(value)
-
         cursor.mergeCharFormat(text_format)
 
         self.text_item.setTextCursor(cursor)
 
+        # Check whether the new size fits inside the label
+        text_height = self.text_item.boundingRect().height()
+
+        if text_height > self.label_height:
+            # Restore the previous font size
+            cursor.select(QTextCursor.SelectionType.BlockUnderCursor)
+
+            text_format = cursor.charFormat()
+            text_format.setFontPointSize(old_size)
+            cursor.mergeCharFormat(text_format)
+
+            self.text_item.setTextCursor(cursor)
+
+            # Return the slider to the previous valid size
+            self.ui.font_size.blockSignals(True)
+            self.ui.font_size.setValue(int(old_size))
+            self.ui.font_size.blockSignals(False)
+
+        # Reposition the text according to the current vertical alignment
         self.update_text_position()
 
     # Reposition the text according to the current vertical alignment
@@ -189,20 +234,21 @@ class MainScreenForm(Form):
   
     # Check the text height and keep the text inside the label
     def check_text_limit(self):
-        text_height = self.text_item.boundingRect().height()
-
-        if text_height > self.label_height:
-            cursor = self.text_item.textCursor()
-
-            if cursor.hasSelection():
-                cursor.removeSelectedText()
-            else:
-                cursor.deletePreviousChar()
-
-            self.text_item.setTextCursor(cursor)
-
-        # Reposition the text according to the current vertical alignment
         self.update_text_position()
+        # text_height = self.text_item.boundingRect().height()
+
+        # if text_height > self.label_height:
+        #     cursor = self.text_item.textCursor()
+
+        #     if cursor.hasSelection():
+        #         cursor.removeSelectedText()
+        #     else:
+        #         cursor.deletePreviousChar()
+
+        #     self.text_item.setTextCursor(cursor)
+
+        # # Reposition the text according to the current vertical alignment
+        # self.update_text_position()
 
     # Position the text at the top of the label
     def align_text_top(self):
@@ -357,6 +403,20 @@ class MainScreenForm(Form):
         cursor.mergeCharFormat(text_format)
 
         self.text_item.setTextCursor(cursor)
+
+
+    # Change the label dimensions according to the selected combo-box value
+    def change_label_size(self, index):
+        sizes = {
+            0: (40, 35),
+            1: (40, 20),
+            2: (50, 25),
+        }
+
+        self.label_width_mm, self.label_height_mm = sizes[index]
+
+        # Recreate the label with the new dimensions
+        self.create_label()
 
 
 

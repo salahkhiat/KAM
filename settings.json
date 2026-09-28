@@ -1,5 +1,5 @@
 {
-    "selected_size": "1",
+    "selected_size": "3",
     "sizes":{
         "1":{
             "width_mm": 40,
@@ -8,6 +8,11 @@
         "2":{
             "width_mm": 50,
             "height_mm": 25
+        }
+        ,
+        "3":{
+            "width_mm": 40,
+            "height_mm": 35
         }
     }
 }
