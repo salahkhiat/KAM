@@ -40,7 +40,7 @@ class MainScreenForm(Form):
         self.ui.font_size.valueChanged.connect(self.change_font_size)
 
         # Set the initial font size of the text
-        self.text_item.setFont(QFont("Arial", 30))
+        self.text_item.setFont(QFont("Arial", 40))
         
        
         self.ui.font_size.valueChanged.connect(self.change_font_size)
@@ -62,11 +62,7 @@ class MainScreenForm(Form):
         # Store the current vertical text alignment
         self.vertical_alignment = "center"
 
-        self.ui.font_size.setValue(30)
-
- 
-
-        
+        self.ui.font_size.setValue(40)
 
         # Connect the alignment buttons
         self.ui.top_btn.clicked.connect(self.align_text_top)
@@ -235,20 +231,7 @@ class MainScreenForm(Form):
     # Check the text height and keep the text inside the label
     def check_text_limit(self):
         self.update_text_position()
-        # text_height = self.text_item.boundingRect().height()
 
-        # if text_height > self.label_height:
-        #     cursor = self.text_item.textCursor()
-
-        #     if cursor.hasSelection():
-        #         cursor.removeSelectedText()
-        #     else:
-        #         cursor.deletePreviousChar()
-
-        #     self.text_item.setTextCursor(cursor)
-
-        # # Reposition the text according to the current vertical alignment
-        # self.update_text_position()
 
     # Position the text at the top of the label
     def align_text_top(self):
